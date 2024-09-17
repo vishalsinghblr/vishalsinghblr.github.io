@@ -1,6 +1,6 @@
-  =>  Template Name    : Resume - Resume Website Template
+  =>  Template Name    : DarkCV - Bootstrap CV Resume Template
 
-  =>  Template Link    : https://htmlcodex.com/resume-website-template
+  =>  Template Link    : https://htmlcodex.com/bootstrap-cv-resume-template
 
   =>  Template License : https://htmlcodex.com/license (or read the LICENSE.txt file)
 
