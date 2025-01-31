@@ -1,31 +1,39 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: Deploy Gatsby Portfolio
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main  # Runs on pushes to the 'main' branch
 
 jobs:
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install Gatsby CLI
+        run: npm install -g gatsby-cli
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Gatsby Site
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        run: |
+          rm -rf node_modules  # Clean up to avoid pushing unnecessary files
+          touch public/.nojekyll  # Ensure GitHub Pages doesn't ignore files
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git add -A
+          git commit -m "Deploy Gatsby site" || echo "No changes to commit"
+          git push origin main  # Push changes to the 'main' branch
