@@ -1,0 +1,45 @@
+name: Deploy Gatsby Portfolio
+
+on:
+  push:
+    branches:
+      - main  # Runs on pushes to the 'main' branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install Gatsby CLI
+        run: npm install -g gatsby-cli
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Gatsby Site
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        run: |
+          rm -rf node_modules  # Clean up unnecessary files
+          touch public/.nojekyll  # Ensure GitHub Pages serves static files correctly
+
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+          git clone https://github.com/${{ github.repository }}.git --branch=main --single-branch repo
+          cp -r public/* repo/  # Copy build output to repo
+
+          cd repo
+          git add -A
+          git commit -m "Deploy Gatsby site" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.git main
