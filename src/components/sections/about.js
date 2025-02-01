@@ -135,10 +135,11 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! My name is Brittany and I enjoy creating things that live on the internet. My
-              interest in web development started back in 2012 when I decided to try editing custom
-              Tumblr themes — turns out hacking together a custom reblog button taught me a lot
-              about HTML &amp; CSS!
+              Hello! My name is Vishal, and I have a strong passion for building innovative Machine
+              Learning solutions. My interest in Artificial Intelligence and Machine Learning began
+              in 2020 when I developed automation tools for my team at Boeing. This experience not
+              only deepened my understanding of AI-driven efficiencies but also inspired me to
+              explore advanced technologies that drive productivity and innovation.
             </p>
 
             <p>
